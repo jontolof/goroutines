@@ -9,22 +9,18 @@ import (
 
 func main() {
 	start := time.Now()
-	var wg sync.WaitGroup
 	urls := []string{
 		"http://www.aftonbladet.se",
 		"http://www.apple.com",
 		"http://www.svd.se",
 	}
 	for _, url := range urls {
-		wg.Add(1)
-		go fetchURL(url, &wg)
+		fetchURL(url, &wg)
 	}
-	wg.Wait()
 	fmt.Println("Duration:", time.Since(start))
 }
 
 func fetchURL(url string, wg *sync.WaitGroup) {
-	defer wg.Done()
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println("Error:", err)
